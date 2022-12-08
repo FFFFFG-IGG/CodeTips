@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<groops>
+	<global>
+		<time label="timeStart">59215</time>
+		<time label="timeEnd">timeStart+1</time>
+		<loopType label="prn">
+			<fileAscii>
+				<inputfile>F:\GNSS\PPP\itsg\data\gnss\transmitter\transmitterList.beidou.txt</inputfile>
+				<inputfile>F:\GNSS\PPP\itsg\data\gnss\transmitter\transmitterList.gps.txt</inputfile>
+				<inputfile>F:\GNSS\PPP\itsg\data\gnss\transmitter\transmitterList.galileo.txt</inputfile>
+				<inputfile>F:\GNSS\PPP\itsg\data\gnss\transmitter\transmitterList.glonass.txt</inputfile>
+				<sort>0</sort>
+				<removeDuplicates>0</removeDuplicates>
+				<startIndex>0</startIndex>
+				<variableLoopString>prn</variableLoopString>
+			</fileAscii>
+		</loopType>
+	</global>
+	<program comment="timeIntervals">
+		<LoopPrograms>
+			<loop>
+				<timeIntervals>
+					<timeIntervals>
+						<uniformSampling>
+							<timeStart link="timeStart"/>
+							<timeEnd link="timeEnd"/>
+							<sampling>1</sampling>
+						</uniformSampling>
+					</timeIntervals>
+					<variableLoopTimeStart>loopTime</variableLoopTimeStart>
+					<variableLoopTimeEnd>loopTimeEnd</variableLoopTimeEnd>
+				</timeIntervals>
+			</loop>
+			<continueAfterError>0</continueAfterError>
+			<processCountPerIteration>0</processCountPerIteration>
+			<parallelLog>1</parallelLog>
+			<program comment="tug{loopTime:%W}{loopTime:%w}.sp3">
+				<Orbit2Sp3Format>
+					<outputfile>tug{loopTime:%W}{loopTime:%w}.sp3</outputfile>
+					<satellite loop="prn">
+						<inputfileOrbit>F:\Download\scenarioGnssNetwork\scenarioGnssNetwork\data\orbit\orbit_2020-01-01.{prn}.dat</inputfileOrbit>
+						<identifier>{prn}</identifier>
+						<orbitAccuracy>0</orbitAccuracy>
+					</satellite>
+					<firstLine>RAW   IGb14 FIT  TUG</firstLine>
+					<writeVelocity>0</writeVelocity>
+					<useSp3kFormat>0</useSp3kFormat>
+				</Orbit2Sp3Format>
+			</program>
+		</LoopPrograms>
+	</program>
+</groops>
